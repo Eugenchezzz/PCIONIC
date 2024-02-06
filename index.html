@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <title>PCIONIC</title>
+</head>
+<body>
+
+ <div id="animation-container" >
+    <img  id="picture" src="img_src/logo_prefin2.jpg" alt="logo">
+    <p id="text" class="hidden" >PCIONIC</p>
+ </div>
+
+<div id="2_div">
+    <h6 id="forclienttext">"Мы, компания PCIONIC, предлагаем нашим клиентам поддержку и ресурсы для заботы о своем психическом здоровье. Наши лицензированные психологи готовы помочь вам на пути к гармонии и благополучию. Независимо от вашей ситуации, мы здесь, чтобы вы найти того, кто поможет вам найти ответы и решения. Доверьтесь нам, и начните ваше путешествие к внутреннему равновесию сегодня."</h6>
+    <img src="img_src/OIG.jpg" alt="psicologyst" id="psicologyst">
+</div>
+ <br>
+ <div id="2_5_div">
+     <img src="img_src/OIG2.jpg" alt="psicologyst" id="psicologyst1">
+     <h6 id="forprotext">"Добро пожаловать в PCIONIC - ваш путь к новым клиентам и возможностям. Мы предоставляем платформу, которая соединяет вас с людьми, ищущими вашу экспертизу. Наша цель - помочь вам расширить вашу клиентскую базу и продвигать вашу практику. Присоединяйтесь к нашему сообществу квалифицированных специалистов и начните делать то, что вы делаете лучше всего, помогая другим находить путь к благополучию."</h6>
+ </div>
+ <br><br><br><br><br><br><br>
+ <!--
+<div id="3_div" >
+     <div id="3div_images">
+         <button onclick="changeImage(-1)" class="arrow-button" id="chbut1">←</button>
+         <div class="image-container">
+             <img id="image1" class="carousel-image" src="img_src/logo1.jpg">
+             <img id="image2" class="carousel-image" src="img_src/logo2.jpg">
+             <img id="image3" class="carousel-image" src="img_src/logo3.jpg">
+         </div>
+         <button onclick="changeImage(1)" class="arrow-button" id="chbut2">→</button>
+     </div>
+     <div id="3div_text">
+         <p id="text1">lorem</p>
+         <p id="text2">Текст для изображения 2</p>
+         <p id="text3">Текст для изображения 3</p>
+     </div>
+ </div>
+
+ <script>
+     var index = 0;
+     var images = document.getElementById('3div_images').getElementsByTagName('img');
+     var texts = document.getElementById('3div_text').getElementsByTagName('p');
+
+     function changeImage(direction) {
+         index += direction;
+         if (index < 0) index = images.length - 1;
+         if (index >= images.length) index = 0;
+
+         for (var i = 0; i < images.length; i++) {
+             var imgIndex = (i - index + images.length) % images.length;
+             images[i].style.transform = 'translateX(' + ((imgIndex - 1) * 100) + '%)';
+             texts[i].style.display = 'none';
+         }
+
+         texts[index].style.display = 'block';
+     }
+
+     changeImage(0);
+ </script>
+
+
+
+
+
+
+<foot>
+    <div id="footer"></div>
+</foot>
+-->
+    <container id="container">
+        <button id="logpagebut" class="btn" >
+            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+                <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+            </svg>
+            <span>войти</span>
+        </button>
+        <br> <br>
+        <button id="regpagebut" class="btn">
+            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+                <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+            </svg>
+            <span>зарегистрироваться</span>
+        </button>
+
+    </container>
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         document.getElementById('logpagebut').addEventListener('click', function() {
+             console.log('нажато');
+             window.location.href = '/login';
+         });
+     });
+
+     document.addEventListener('DOMContentLoaded', function() {
+         document.getElementById('regpagebut').addEventListener('click', function() {
+             console.log('нажато регистрация');
+             window.location.href = '/register';
+         });
+     });
+
+ </script>
+</body>
+</html>

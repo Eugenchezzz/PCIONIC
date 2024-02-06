@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>РЕГИСТРАЦИЯ</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="register_form/register.css">
+    <link rel="stylesheet" href="knopka.css">
+</head>
+<body>
+<form   action="/submit" method="post">
+    <img id="logo" src="img_src/logo_prefin2.jpg" alt="logo">
+    <h3>PSIONIC</h3>
+
+
+    <input type="text" id="username" name="username"><br>
+    <br>
+    <input type="password" id="password" name="password"><br>
+
+    <button id= "reg_button" class="btn">
+        <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+        </svg>
+        <span style="font-family: Bahnschrift">регистрация</span>
+    </button>
+    <button id="pro_reg_form" class="btn">
+        <svg id="sveg_pro_login_form" width="200px" height="60px" viewBox="0 0 180 60" class="border">
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+        </svg>
+        <span style="font-size: 20px; position:relative; left:20px;">как специалист</span>
+    </button>
+
+</form>
+
+<script>
+    // Добавляем обработчик событий 'click' к кнопке с классом 'btn'
+    document.querySelector('#reg_button').addEventListener('click', (event) => {
+        // Предотвращаем стандартное поведение формы (которое обычно перезагружает страницу)
+        event.preventDefault();
+
+        // Извлекаем данные из полей ввода с id 'username' и 'password'
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+
+        // Используем функцию fetch для отправки HTTP-запроса
+        // Первый аргумент - это URL, на который мы отправляем запрос
+        // Второй аргумент - это объект с параметрами запроса
+        fetch('/register-user', {
+            method: 'POST', // Метод запроса
+            headers: {
+                'Content-Type': 'application/json', // Тип контента, который мы отправляем
+            },
+            body: JSON.stringify({ username, password }), // Тело запроса
+        })
+            // fetch возвращает Promise, который разрешается в объект Response
+            // Мы используем метод text() объекта Response, чтобы получить тело ответа как текст
+            .then(response => response.text())
+            // Затем мы выводим тело ответа в консоль
+            .then(data => console.log(data))
+            // Если в процессе выполнения запроса произошла ошибка, мы выводим ее в консоль
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('pro_reg_form').addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log('нажато jija');
+            window.location.href = '/pro_reg_form';
+        });
+    });
+
+
+</script>
+</body>
+</html>

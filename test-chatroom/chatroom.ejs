@@ -1,0 +1,163 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Видеосвязь</title>
+    <script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
+</head>
+<body>
+<div id="myVideoContainer">
+    <video style="transform: scaleX(-1);" id="myVideo" autoplay></video>
+    <p>Ваш логин: <span id="myLogin"><%= login %></span></p>
+</div>
+<div id="remoteVideoContainer">
+    <video id="remoteVideo" autoplay></video>
+    <p>Логин собеседника: <input type="text" id="remoteLogin"></p>
+    <button id="connectButton">Подключить</button>
+</div>
+
+<script>
+    const socket = io();
+    const myVideo = document.getElementById('myVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const myLogin = document.getElementById('myLogin').textContent;
+    const remoteLoginInput = document.getElementById('remoteLogin');
+    const connectButton = document.getElementById('connectButton');
+
+    // Запрашиваем доступ к веб-камере
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            myVideo.srcObject = stream;
+        })
+        .catch(error => {
+            console.error('Ошибка доступа к веб-камере:', error);
+        });
+
+    // Подключаемся к комнате чата
+    socket.emit('join', myLogin);
+
+    // Обработка нажатия на кнопку "Подключить"
+    connectButton.addEventListener('click', () => {
+        const remoteLogin = remoteLoginInput.value;
+        if (remoteLogin) {
+            socket.emit('requestConnection', remoteLogin);
+        }
+    });
+
+    // Обработка запроса на соединение
+    socket.on('connectionRequested', (requesterLogin) => {
+        const accept = confirm(`Пользователь ${requesterLogin} хочет подключиться. Принять?`);
+        console.log('Connection requested. Accept: ', accept);
+        socket.emit('respondToConnection', requesterLogin, accept);
+    });
+
+    // Обработка принятого соединения
+    socket.on('connectionAccepted', (accepterLogin) => {
+        alert(`Пользователь ${accepterLogin} принял ваш запрос на соединение.`);
+        console.log('Connection accepted. Initiating video call...');
+
+        // Создаем RTCPeerConnection
+        const peerConnection = new RTCPeerConnection();
+
+        // Добавляем ваш поток медиа
+        const localStream = myVideo.srcObject;
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+        // Обрабатываем SDP, создаем и отправляем предложение
+        peerConnection.createOffer()
+            .then(offer => {
+                console.log('Local SDP (offer):', offer);
+                return peerConnection.setLocalDescription(offer);
+            })
+            .then(() => {
+                socket.emit('offer', accepterLogin, peerConnection.localDescription);
+            });
+
+        // Обработка ответа
+        socket.on('answer', (offererLogin, answer) => {
+            console.log('Remote SDP (answer):', answer);
+            const remoteDescription = new RTCSessionDescription(answer);
+            peerConnection.setRemoteDescription(remoteDescription);
+        });
+
+        // Обработка ICE-кандидатов
+        peerConnection.onicecandidate = event => {
+            if (event.candidate) {
+                socket.emit('iceCandidate', accepterLogin, event.candidate);
+            }
+        };
+
+        // Обработка удаленного потока
+        peerConnection.ontrack = event => {
+            console.log('Received remote stream:', event.streams[0]);
+            remoteVideo.srcObject = event.streams[0];
+        };
+    });
+
+    // Обработка отклоненного соединения
+    socket.on('connectionDeclined', (declinerLogin) => {
+        alert(`Пользователь ${declinerLogin} отклонил ваш запрос на соединение.`);
+
+
+        socket.on('connectionAccepted', (accepterLogin) => {
+            alert(`Пользователь ${accepterLogin} принял ваш запрос на соединение.`);
+            console.log('Connection accepted. Initiating video call...');
+
+            // Создаем RTCPeerConnection
+            const peerConnection = new RTCPeerConnection();
+
+            // Добавляем ваш поток медиа
+            const localStream = myVideo.srcObject;
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            // Обрабатываем SDP, создаем и отправляем предложение
+            peerConnection.createOffer()
+                .then(offer => {
+                    console.log('Local SDP (offer):', offer);
+                    return peerConnection.setLocalDescription(offer);
+                })
+                .then(() => {
+                    socket.emit('offer', accepterLogin, peerConnection.localDescription);
+                })
+                .catch(error => {
+                    console.error('Error creating offer:', error);
+                });
+
+            // Обработка ответа
+            socket.on('answer', (offererLogin, answer) => {
+                console.log('Remote SDP (answer):', answer);
+                const remoteDescription = new RTCSessionDescription(answer);
+                peerConnection.setRemoteDescription(remoteDescription)
+                    .catch(error => {
+                        console.error('Error setting remote description:', error);
+                    });
+            });
+
+            // Обработка ICE-кандидатов
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    socket.emit('iceCandidate', accepterLogin, event.candidate);
+                }
+            };
+
+            // Обработка удаленного потока
+            peerConnection.ontrack = event => {
+                console.log('Received remote stream:', event.streams[0]);
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            // Обработка ошибок
+            peerConnection.onerror = error => {
+                console.error('RTCPeerConnection error:', error);
+            };
+
+            // Обработка состояния соединения
+            peerConnection.oniceconnectionstatechange = event => {
+                console.log('ICE connection state change:', peerConnection.iceConnectionState);
+            };
+        });
+    });
+</script>
+</body>
+</html>

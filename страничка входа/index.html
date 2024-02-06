@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ВХОД</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/страничка входа/index.css">
+    <link rel="stylesheet" href="knopka.css">
+</head>
+<body>
+<form   action="/submit" method="post">
+    <img  id="logo" src="img_src/logo_prefin2.jpg" alt="logo">
+    <h3>PSIONIC</h3>
+
+
+        <input type="text" id="username" name="username"><br>
+        <br>
+        <input type="password" id="password" name="password"><br>
+        <div id="radio_button_n_text">
+    <input type="checkbox" id="check_button">
+        <p>я профессионал</p>
+        </div>
+    <span class="btn">
+         <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+         </svg>
+         <span onclick="check_for_login()" id="check_data_for_login">войти</span>
+        </span>
+
+
+</form>
+
+
+<script>
+
+
+    var checkbox = document.getElementById('check_button');
+    checkbox.value='off';
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    checkbox.addEventListener('change', function() {
+        // Устанавливаем значение "on" или "off" в зависимости от состояния чекбокса
+        this.value = this.checked ? 'on' : 'off';
+    });
+
+    function check_for_login() {
+        username = document.getElementById('username').value;
+        password = document.getElementById('password').value;
+        var isPro = checkbox.value;
+
+        // Опции для запроса
+        const options = {
+            method: 'POST', // Метод запроса
+            headers: {
+                'Content-Type': 'application/json' // Указываем, что отправляем JSON
+            },
+            body: JSON.stringify({ username: username, password: password, isPro: isPro })
+        };
+
+        // Отправляем запрос на сервер
+        fetch('/button-click', options)
+            .then(response => {
+                if (response.redirected) {
+                    // Если есть редирект, перейдем по URL редиректа
+                    window.location.href = response.url;
+                } else {
+                    // Иначе обработаем ответ, как обычно
+                    return response.text();
+                }
+            })
+            .then(data => {
+                console.log('Server Response:', data);
+                // Дополнительные действия после получения ответа от сервера
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+    }
+
+</script>
+</body>
+</html>

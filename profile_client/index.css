@@ -1,0 +1,139 @@
+/*задний фон */
+body, html {
+    margin: 0;
+    padding: 0;
+    /* Это уберет отступы по умолчанию для всего документа */
+}
+#top_border {
+    width:calc(100%);
+    height: 150px;
+    background: linear-gradient(270deg, #0AD171 0%, #8CE9D1 100%);
+    border-bottom:5px solid rgba(0, 0, 0, 0.38);
+}
+#left_border {
+    width: 170px;
+    height: calc(100vh - 155px); /* 100vh - это 100% от высоты видимой области окна браузера */
+    background: rgba(10, 209, 158, 0.47);
+}
+
+#logo_img{
+    position: absolute;
+    height: 140px;
+    top:1%;
+    left:0.5%;
+    border-radius: 50%;
+}
+
+#profile_img{
+    position: absolute;
+    border: solid 2px rgba(38, 57, 86, 0.82);
+    border-radius: 10%;
+    height: 140px;
+    top:0.5%;
+    right: 2%;
+}
+
+
+
+
+
+/* Стиль для затемнения фона */
+.modal {
+    display: none; /* Скрыть модальное окно по умолчанию */
+    position: fixed; /* Оставаться на месте при прокрутке */
+    z-index: 1; /* Сидеть поверх всего */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Включить прокрутку, если нужно */
+    background-color: rgb(0,0,0); /* Цвет фона */
+    background-color: rgba(0,0,0,0.4); /* Черный с непрозрачностью */
+}
+            /*для окна, открываемого при нажатии на иконку фотографии*/
+/* Стиль для содержимого модального окна */
+.modal-content {
+    background-color: rgba(38, 57, 86, 0.53);
+    margin: 15% auto; /* 15% сверху и по центру */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%; /* Можно настроить ширину */
+    height: 30px;
+}
+
+/* Стиль для кнопки закрытия */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    top:-14px;
+    right:-8px;
+}
+
+.close:hover,
+.close:focus {
+    color: #0AD171;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#load_profile_img_button {
+    position: relative;
+    height: auto;
+    width: 170px;
+    left: 20%;
+    font-family: Bahnschrift;
+    font-size: 22px;
+    border: transparent;
+    background-color: transparent;
+}
+#load_profile_img_button:hover{
+    border-bottom:solid 2px #0AD171;
+}
+
+            /*----для окна, открываемого при нажатии на иконку фотографии----*/
+
+
+
+
+
+/*кнопки и оформление*/
+#block_left_buttons{
+    position: absolute;
+    left:2%;
+    top:20%;
+    background-color: transparent;
+    height: calc(80%);
+    width:100px;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column; /* Дочерние элементы идут друг за другом по вертикали */
+    align-items: center; /* Центрирование дочерних элементов по горизонтали */
+    justify-content: center; /* Центрирование дочерних элементов по вертикали, если у родителя фиксированная высота */
+}
+.left_button{
+    font-family: Bahnschrift;
+    font-size: 30px;
+    display: inline-block;
+    text-align: center;
+
+}
+.left_button:hover{
+    cursor: pointer;
+}
+
+
+#client_login{
+    position: absolute;
+    top:5%;
+    left:60%;
+}
+.left_button{
+    border-bottom: solid 5px transparent;
+}
+.left_button:hover{
+    border-bottom: solid 5px #675cf8;
+}
+

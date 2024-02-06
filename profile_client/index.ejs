@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>личный кабинет</title>
+  <link rel="stylesheet" href="profile_client/index.css">
+</head>
+<body>
+    <h1 id="client_login"> <%= login %></h1>
+  <div id="top_border"></div>
+  <div id="left_border"></div>
+  <img id="logo_img" src="profile_client/src_img/logo_prefin2.jpg" alt="logo">
+
+        <!--дополнительное окно для загрузки фото-->
+  <img onclick="open_profile_img_loader_page()"
+       id="profile_img" src="profile_client/src_img/no_photo.jpg" alt="profile_photo">
+
+  <div id="myModal" class="modal">
+      <!-- Содержимое модального окна -->
+      <div class="modal-content">
+          <span id="closeModal" class="close">&times;</span>
+          <button id="load_profile_img_button">загрузить фото</button>
+      </div>
+  </div>
+    <button onclick="redirect_to_chatroom()" style="position: absolute; top: 30px; left:200px;">
+        <p>перейти на чат-комнату </p>
+    </button>
+
+
+  <script>
+      function redirect_to_chatroom(){
+          window.location.href = '/chatroom';
+      }
+      // Функция для открытия модального окна
+      function open_profile_img_loader_page() {
+          var modal = document.getElementById('myModal');
+          modal.style.display = "block";
+      }
+
+      // Получаем элемент для закрытия модального окна
+      var span = document.getElementById('closeModal');
+
+      // Когда пользователь нажимает на (x), закрывается модальное окно
+      span.onclick = function() {
+          var modal = document.getElementById('myModal');
+          modal.style.display = "none";
+      }
+
+      // Когда пользователь нажимает в любом месте за пределами модального окна, оно закрывается
+      window.onclick = function(event) {
+          var modal = document.getElementById('myModal');
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+
+  </script>
+            <!-----дополнительное окно для загрузки фото----->
+
+            <!--боковые кнопки-->
+  <div id="block_left_buttons">
+      <span class="left_button" onclick="showElement('profile_inpage')">профиль</span>
+      <br>
+      <br>
+      <br>
+      <span class="left_button" onclick="showElement('chats_inpage')">мои чаты</span>
+      <br>
+      <br>
+      <br>
+      <span class="left_button" onclick="showElement('search_inpage')">найти психолога</span>
+    </div>
+      <div class="for_menu_inpages" id="profile_inpage">
+          <h1>профиль</h1>
+      </div>
+
+      <div class="for_menu_inpages" id="chats_inpage">
+          <h1>чаты</h1>
+      </div>
+
+      <div class="for_menu_inpages" id="search_inpage">
+          <h1>Поиск психолога</h1>
+      </div>
+
+      <!-- Боковые кнопки -->
+      <script>
+          function showElement(elementId) {
+              document.getElementById("profile_inpage").style.display = 'none';
+              document.getElementById("chats_inpage").style.display = 'none';
+              document.getElementById("search_inpage").style.display = 'none';
+
+              document.getElementById(elementId).style.display = 'block';
+          }
+
+          // Вызываем функцию showElement() при загрузке страницы
+          window.onload = function () {
+              showElement("profile_inpage");
+          };
+      </script>
+
+
+
+      <!-----боковые кнопки----->
+
+</body>
+</html>

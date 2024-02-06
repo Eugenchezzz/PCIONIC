@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>кабинет.pro</title>
+    <link rel="stylesheet" href="profile_pro/index.css">
+</head>
+<body>
+<div id="top_border">
+    <p> <%= login %> </p>
+
+</div>
+<div id="left_border"></div>
+<img id="logo_img" src="/profile_pro/src_img/logo_prefin2.jpg" alt="logo">
+
+<!--дополнительное окно для загрузки фото-->
+<img onclick="open_profile_img_loader_page()"
+     id="profile_img" src="/profile_pro/src_img/no_photo.jpg" alt="profile_photo">
+
+<div id="myModal" class="modal">
+    <!-- Содержимое модального окна -->
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <button id="load_profile_img_button">загрузить фото</button>
+    </div>
+</div>
+
+<button onclick="redirect_videochat_with_login()">
+    <p>начать видеочат с:</p>
+    <br>
+    <input  id="open_videochat" type="text">
+</button>
+
+<script>
+    // Функция для открытия модального окна
+    function open_profile_img_loader_page() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";
+    }
+
+    // Получаем элемент для закрытия модального окна
+    var span = document.getElementById('closeModal');
+
+    // Когда пользователь нажимает на (x), закрывается модальное окно
+    span.onclick = function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+    }
+
+    // Когда пользователь нажимает в любом месте за пределами модального окна, оно закрывается
+    window.onclick = function(event) {
+        var modal = document.getElementById('myModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
+<!-----дополнительное окно для загрузки фото----->
+
+<!--боковые кнопки-->
+<div id="block_left_buttons">
+    <span class="left_button">профиль</span>
+    <br>
+    <br>
+    <br>
+    <span class="left_button">мои чаты</span>
+    <br>
+    <br>
+    <br>
+    <span class="left_button">найти психолога</span>
+    <br>
+    <br>
+    <br>
+    <span class="left_button">выход</span>
+</div>
+<!-----боковые кнопки----->
+<script>
+    // ... Ваши текущие скрипты ...
+
+    // Функция для перенаправления на страницу видеочата с указанным логином
+    function redirect_videochat_with_login() {
+        var loginInput = document.getElementById('open_videochat');
+        var targetLogin = loginInput.value;
+
+        // Проверка, чтобы не перенаправлять на пустой логин
+        if (targetLogin.trim() !== '') {
+            // Перенаправление на страницу видеочата с указанным логином
+            window.location.href = `/test-chatroom/chatroom.ejs?login=${encodeURIComponent(targetLogin)}`;
+        } else {
+            alert('Введите логин для начала видеочата.');
+        }
+    }
+</script>
+</body>
+</html>
