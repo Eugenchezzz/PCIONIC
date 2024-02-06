@@ -29,9 +29,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// переменные для сессии (глобальные переменные):
-var username_i = null;
-var isPro_insession = null;nsession
+
 
 
             // обслуживание кнопок на общедоступных страницах входа и регистрации
